@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Value</title>
+    <link th:href="@{/adminstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:include="header :: header"></header> <!-- Include header fragment -->
+
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/dashboard/createagent}">Create Agent</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}">All Users List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodstock}">Stock</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}" class="active">Coin Value</a></li>
+        </ul>
+    </aside>
+
+    <div class="container">
+        <h2 class="text-center mb-4">Coin Value</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>End User UserName</th>
+                <th>Blood Group</th>
+                <th>End User Coins</th>
+                <th>Agent Coins</th>
+                <th>Admin Coins</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterate over each item in getCoinReport -->
+            <tr th:each="report, loop : ${getCoinReport}">
+                <td th:text="${loop.index + 1}"></td>
+                <td th:text="${report.userName}"></td>
+                <td th:text="${report.bloodGroup}"></td>
+                <td th:text="${report.userCoins}"></td>
+                <td th:text="${report.agentCoins}"></td>
+                <td th:text="${report.adminCoins}"></td>
+            </tr>
+            <tr>
+                <td colspan="3">Total Coins:</td>
+                <td th:text="${totalUserCoins}"></td>
+                <td th:text="${totalAgentCoins}"></td>
+                <td th:text="${totalAdminCoins}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${#lists.isEmpty(getCoinReport)}">
+            <strong>No request found</strong>
+        </div>
+    </div>
+</div>
+
+<footer th:include="footer :: footer"></footer> <!-- Include footer fragment -->
+</body>
+</html>

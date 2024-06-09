@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Report</title>
+    <link th:href="@{/agentstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:replace="header :: header"></header>
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/signup}">Create EndUser</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}">EndUsers List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}" class="active">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}">Coin Value</a></li>
+        </ul>
+    </aside>
+    <div class="container">
+        <h2 class="text-center mb-4">Blood Requests Report For (Reject/Approved)</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Blood Group</th>
+                <th>Approved Requests</th>
+                <th>Rejected Requests</th>
+                <th>Total Request Count</th>
+                <th>Coin Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bloodStock : ${bloodReport}">
+                <td th:text="${bloodStock.bloodGroup}"></td>
+                <td th:text="${bloodStock.approvedRequests}"></td>
+                <td th:text="${bloodStock.rejectedRequests}"></td>
+                <td th:text="${bloodStock.rejectedRequests + bloodStock.approvedRequests}"></td>
+                <td th:text="${bloodStock.coinValue}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer th:replace="footer :: footer"></footer>
+</body>
+</html>

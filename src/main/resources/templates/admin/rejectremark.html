@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remark Form</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Remark Form</h2>
+        <h5 class="text-center mb-4">USERName - [[${userName}]]</h5>
+        <h5 class="text-center mb-4">Request type - [[${type}]]</h5>
+        <h6 class="text-center mb-4">Request Id - [[${reqid}]]</h6>
+        <form action="proceedRejectRequest" method="post">
+            <div class="mb-3">
+                <input type="hidden" name="status" th:value="${status}">
+                <input type="hidden" name="reqid" th:value="${reqid}">
+                <label for="remark" class="form-label">Enter Remark:</label>
+                <input type="text" class="form-control" id="remark" name="remark" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Reject request</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

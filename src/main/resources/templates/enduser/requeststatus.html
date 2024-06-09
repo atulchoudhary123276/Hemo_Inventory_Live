@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests Status</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        select, input[type="date"] {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center mb-4">User Requests List <br>userName: <span th:text="${userId}"></span> <br> Name: <span th:text="${name}"></span></h2>
+    <form action="/dashboard/bloodrequests" method="GET">
+        <!-- Filtering options -->
+        <select id="filterOption" name="filterOption" onchange="toggleFilterOptions()">
+            <option value="select" selected>Select Options</option>
+            <option value="byStatus">By Status</option>
+            <option value="createdBetween">Created Between</option>
+        </select>
+        <input type="date" id="startDate" name="startDate" placeholder="Start Date" style="display: none;">
+        <input type="date" id="endDate" name="endDate" placeholder="End Date" style="display: none;">
+
+        <!-- Status select -->
+        <select id="statusSelect" name="status" style="display: none;">
+            <option value="select">Select Status</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+            <option value="pending">Pending</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Request Id</th>
+            <th>Blood Group</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Created At</th>
+            <th>Status</th>
+            <th>Remark</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bloodStock, loopStatus : ${requests}">
+            <td th:text="${bloodStock.id}"></td>
+            <td th:text="${bloodStock.bloodGroup}"></td>
+            <td th:text="${bloodStock.quantity}"></td>
+            <td th:text="${bloodStock.type.toUpperCase()}"></td>
+            <td th:text="${bloodStock.createdAt}"></td>
+            <td th:text="${bloodStock.status}"></td>
+            <td th:text="${bloodStock.remark}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(requests)}">
+            <td colspan="7"><strong>No request found</strong></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function toggleFilterOptions() {
+        var selectedOption = document.getElementById("filterOption").value;
+        var startDateInput = document.getElementById("startDate");
+        var endDateInput = document.getElementById("endDate");
+        var statusInput = document.getElementById("statusSelect");
+
+        if (selectedOption === "createdBetween") {
+            startDateInput.style.display = "inline-block";
+            endDateInput.style.display = "inline-block";
+            statusInput.style.display = "none";
+        } else if (selectedOption === "byStatus") {
+            statusInput.style.display = "inline-block";
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+        } else {
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+            statusInput.style.display = "none";
+        }
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>

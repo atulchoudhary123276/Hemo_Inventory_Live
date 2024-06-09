@@ -1,0 +1,48 @@
+<!--<jsp:include page="header.jsp" />-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link th:href="@{/adminstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<!--<header th:include="header :: header"></header>-->
+<header th:replace="header :: header"></header>
+
+
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a href="/dashboard" class="active">Dashboard</a></li>
+            <li><a href="/dashboard/createagent">Create Agent</a></li>
+            <li><a href="/dashboard/alluserslist">AllUsers List</a></li>
+            <li><a href="/dashboard/bloodrequests">Requests</a></li>
+            <li><a href="/dashboard/bloodstock" >Stock</a></li>
+            <li><a  href="/dashboard/bloodreport">Blood Report</a></li>
+            <li><a href="/dashboard/coinvalue" >Coin Value</a></li>
+
+        </ul>
+    </aside>
+
+    <main class="content">
+        <h1>Welcome to Admin Dashboard</h1>
+        <h2 th:style="'color:green'" th:text="${success}"></h2>
+        <div class="admin-profile">
+            <h2>Admin Profile</h2>
+            <p><strong>Name:</strong> <span th:text="${name}"></span></p>
+            <p><strong>Username:</strong> <span th:text="${userId}"></span></p>
+            <p><strong>Created At:</strong> <span th:text="${createdOn}"></span></p>
+            <p><strong>Created By:</strong> <span th:text="${createdBy}"></span></p>
+            <p><strong>DOB:</strong> <span th:text="${dob}"></span></p>
+            <p><strong>Blood Group:</strong> <span th:text="${bloodGroup}"></span></p>
+        </div>
+    </main>
+</div>
+<!--<jsp:include page="footer.jsp" />-->
+<footer th:include="footer :: footer"></footer>
+
+</body>
+</html>

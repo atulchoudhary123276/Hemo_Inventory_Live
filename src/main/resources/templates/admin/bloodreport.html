@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Report</title>
+    <link th:href="@{/adminstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:include="header :: header"></header> <!-- Include header fragment -->
+
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/dashboard/createagent}">Create Agent</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}">All Users List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodstock}">Stock</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}" class="active">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}">Coin Value</a></li>
+        </ul>
+    </aside>
+
+    <div class="container">
+        <h2 class="text-center mb-4">Report For Blood Requests (Reject/Approved)</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Blood Group</th>
+                <th>Approved Requests</th>
+                <th>Rejected Requests</th>
+                <th>Total Request Count</th>
+                <th>Coin Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bloodStock : ${bloodReport}">
+                <td th:text="${bloodStock.bloodGroup}"></td>
+                <td th:text="${bloodStock.approvedRequests}"></td>
+                <td th:text="${bloodStock.rejectedRequests}"></td>
+                <td th:text="${bloodStock.approvedRequests + bloodStock.rejectedRequests}"></td>
+                <td th:text="${bloodStock.coinValue}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:include="footer :: footer"></footer> <!-- Include footer fragment -->
+</body>
+</html>

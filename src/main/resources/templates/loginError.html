@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginError - BloodBank.in</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        button {
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            background-color: #d9534f;
+        }
+
+        button:hover {
+            background-color: #c9302c;
+        }
+
+        .error-message {
+            color: #d9534f;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .back-to-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-to-login a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #d9534f;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>BloodBank.in</h1>
+</header>
+
+<div class="container">
+    <div class="container">
+        <div class="error-message">
+            <div th:if="${username == 'notFound'}">
+                <h3 th:text="'Login failed. Please check username and try again.'"></h3>
+            </div>
+            <div th:if="${loginAttempt != null}">
+                <h3 th:text="'Login failed. Please check your password and try again.'"></h3>
+            </div>
+
+            <div th:if="${loginAttempt != null && loginAttempt != 0}">
+                <h3 th:text="'You have only ' + ${remainingAttempts} + ' attempts left.'"></h3>
+            </div>
+        </div>
+
+        <div class="back-to-login">
+            <button><a th:href="@{/login}">Back to Login</a></button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

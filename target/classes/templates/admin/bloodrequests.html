@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Requests List</title>
+    <!-- Include any necessary CSS or meta tags -->
+    <link th:href="@{/adminstyle.css}" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<header th:replace="header :: header"></header>
+
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/dashboard/createagent}">Create Agent</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}">All Users List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}" class="active">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodstock}">Stock</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}">Coin Value</a></li>
+        </ul>
+    </aside>
+
+    <div class="container">
+        <h2 class="text-center mb-4">User Requests List</h2>
+        <div th:if="${statusResult != null}">
+            <p th:text="${statusResult}"></p>
+        </div>
+        <form class="action-buttons" th:action="@{/dashboard/bloodrequests}" method="GET">
+            <!-- Filtering options -->
+            <select id="filterOption" name="filterOption" onchange="toggleFilterFields(this.value)">
+                <option value="select" selected>Select Options</option>
+                <option value="byStatus">By Status</option>
+                <option value="byAgent">By Agent</option>
+                <option value="byUsername">By Username</option>
+                <option value="createdBetween">Created Between</option>
+            </select>
+            <input type="text" id="usernameInput" name="input" placeholder="Enter.." style="display: none;">
+            <input type="date" id="startDate" name="startDate" placeholder="Start Date" style="display: none;">
+            <input type="date" id="endDate" name="endDate" placeholder="End Date" style="display: none;">
+
+            <!-- Status select -->
+            <select id="statusSelect" name="status" style="display: none;">
+                <option value="select">Select Status</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+                <option value="pending">Pending</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Request Id</th>
+                <th>CreatedBy</th>
+                <th>Agent</th>
+                <th>Blood Group</th>
+                <th>Quantity</th>
+                <th>Type</th>
+                <th>Created At</th>
+                <th>DOB</th>
+                <th>Age</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="bloodStock : ${getBloodRequests}">
+                <td th:text="${bloodStock.id}"></td>
+                <td th:text="${bloodStock.createdBy}"></td>
+                <td th:text="${bloodStock.agent}"></td>
+                <td th:text="${bloodStock.bloodGroup}"></td>
+                <td th:text="${bloodStock.quantity}"></td>
+                <td th:text="${#strings.toUpperCase(bloodStock.type)}"></td>
+                <td th:text="${bloodStock.createdAt}"></td>
+                <td th:text="${bloodStock.dob}"></td>
+                <td th:text="${bloodStock.age}"></td>
+                <td th:text="${bloodStock.status}"></td>
+                <td>
+                            <span th:if="${bloodStock.status == 'pending'}">
+                                <form th:action="@{/dashboard/approvedRequest}" method="POST">
+                                    <input type="hidden" name="status" value="accepted">
+                                    <input type="hidden" name="reqid" th:value="${bloodStock.id}">
+                                    <button type="submit" class="btn btn-success">Approve</button>
+                                </form>
+                                <form th:action="@{/dashboard/rejectRequest}" method="POST">
+                                    <input type="hidden" name="status" value="rejected">
+                                    <input type="hidden" name="userName" th:value="${bloodStock.createdBy}">
+                                    <input type="hidden" name="reqid" th:value="${bloodStock.id}">
+                                    <input type="hidden" name="type" th:value="${#strings.toUpperCase(bloodStock.type)}">
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                </form>
+                            </span>
+                    <span th:if="${bloodStock.status == 'rejected'}" class="btn btn-dark">Rejected</span>
+                    <span th:if="${bloodStock.status != 'pending' && bloodStock.status != 'rejected'}" class="btn btn-primary">Accepted</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:include="footer :: footer"></footer>
+
+<script th:inline="javascript">
+    function toggleFilterFields(selectedOption) {
+        var usernameInput = document.getElementById("usernameInput");
+        var startDateInput = document.getElementById("startDate");
+        var endDateInput = document.getElementById("endDate");
+        var statusInput = document.getElementById("statusSelect");
+
+        if (selectedOption === "byUsername") {
+            usernameInput.style.display = "inline-block";
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+            statusInput.style.display = "none";
+        } else if (selectedOption === "createdBetween") {
+            startDateInput.style.display = "inline-block";
+            endDateInput.style.display = "inline-block";
+            usernameInput.style.display = "none";
+            statusInput.style.display = "none";
+        } else if (selectedOption === "byStatus") {
+            statusInput.style.display = "inline-block";
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+            usernameInput.style.display = "none";
+        } else {
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+            usernameInput.style.display = "none";
+            statusInput.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link th:href="@{/agentstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:replace="header :: header"></header>
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/signup}">Create EndUser</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}" class="active">EndUsers List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}">Coin Value</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <h2>Blood Bank Dashboard (Only EndUser List Created by Agent)</h2>
+        <h3 style="color:green; text-align:center" th:text="${operation}"></h3>
+        <div class="action-buttons">
+            <!-- Sorting and Filtering options -->
+            <form action="/dashboard/users" method="post">
+                <select name="sortOption">
+                    <option value="select" selected>Select Options</option>
+                    <option value="byname">Sort by Name</option>
+                    <option value="bybloodgroup">Sort by Blood Group</option>
+                </select>
+                <button type="submit">Sort</button>
+
+                <select id="filterOption" name="filterOption">
+                    <option value="select" selected>Select Options</option>
+                    <option value="notLoggedIn">Not Logged In Users</option>
+                    <option value="byUsername">By Username</option>
+                    <option value="createdBetween">Created Between</option>
+                </select>
+                <input type="text" id="usernameInput" name="username" placeholder="Enter Username" style="display: none;">
+                <input type="date" id="startDate" name="startDate" placeholder="Start Date" style="display: none;">
+                <input type="date" id="endDate" name="endDate" placeholder="End Date" style="display: none;">
+                <button type="submit">Filter</button>
+            </form>
+        </div>
+        <div class="enduser-list">
+            <table>
+                <thead>
+                <tr>
+                    <th>Serial No.</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Creation Time</th>
+                    <th>CreatedBy</th>
+                    <th>DOB</th>
+                    <th>Blood Group</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user, loopStat : ${allUsers}">
+                    <td th:text="${loopStat.index + 1}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.createdOn}"></td>
+                    <td th:text="${user.createdBy}"></td>
+                    <td th:text="${user.dob}"></td>
+                    <td th:text="${user.bloodGroup}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${#lists.isEmpty(allUsers)}">
+            <p>No users found</p>
+        </div>
+    </main>
+</div>
+<footer th:replace="footer :: footer"></footer>
+
+<script>
+    document.getElementById("filterOption").addEventListener("change", function() {
+        var selectedOption = this.value;
+        var usernameInput = document.getElementById("usernameInput");
+        var startDateInput = document.getElementById("startDate");
+        var endDateInput = document.getElementById("endDate");
+
+        if (selectedOption === "byUsername") {
+            usernameInput.style.display = "inline-block";
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+        } else if (selectedOption === "createdBetween") {
+            startDateInput.style.display = "inline-block";
+            endDateInput.style.display = "inline-block";
+            usernameInput.style.display = "none";
+        } else {
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+            usernameInput.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>

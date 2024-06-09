@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Value</title>
+    <link th:href="@{/agentstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:replace="header :: header"></header>
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/signup}">Create EndUser</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}">EndUsers List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}" class="active">Coin Value</a></li>
+        </ul>
+    </aside>
+
+    <div class="container">
+        <h2 class="text-center mb-4">Coin Value</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Blood Group</th>
+                <th>End User Coins</th>
+                <th>Rate</th>
+                <th>Agent Coins</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry, loopStat : ${getCoinReport}">
+                <td th:text="${loopStat.index + 1}"></td>
+                <td th:text="${entry.key}"></td>
+                <td th:text="${entry.value[0]}"></td>
+                <td th:text="${entry.value[2]}"></td>
+                <td th:text="${entry.value[1]}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4"><strong>Total Agent Coins:</strong></td>
+                <td th:text="${totalAgentCoins}"></td>
+            </tr>
+            </tfoot>
+        </table>
+        <div th:if="${#lists.isEmpty(getCoinReport)}">
+            <strong>No requests found</strong>
+        </div>
+    </div>
+</div>
+<footer th:replace="footer :: footer"></footer>
+</body>
+</html>

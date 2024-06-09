@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link th:href="@{/agentstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:replace="header :: header"></header>
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}" class="active">Dashboard</a></li>
+            <li><a th:href="@{/signup}">Create EndUser</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}">EndUsers List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}">Coin Value</a></li>
+        </ul>
+    </aside>
+    <div class="main-content">
+        <div class="dashboard-container">
+            <h2>Agent Dashboard</h2>
+            <div class="info-section">
+                <h3>Profile</h3>
+                <ul>
+                    <li><strong>Name:</strong> <span th:text="${name}"></span></li>
+                    <li><strong>Username:</strong> <span th:text="${userId}"></span></li>
+                    <li><strong>Created At:</strong> <span th:text="${createdOn}"></span></li>
+                    <li><strong>Created By:</strong> <span th:text="${createdBy}"></span></li>
+                    <li><strong>DOB:</strong> <span th:text="${dob}"></span></li>
+                    <li><strong>Blood Group:</strong> <span th:text="${bloodGroup}"></span></li>
+                </ul>
+            </div>
+            <h2 style="color:green" th:text="${success}"></h2>
+        </div>
+    </div>
+</div>
+<footer th:replace="footer :: footer"></footer>
+</body>
+</html>

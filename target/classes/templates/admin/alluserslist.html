@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Dashboard</title>
+    <link th:href="@{/adminstyle.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header th:include="header :: header"></header> <!-- Include header fragment -->
+
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a th:href="@{/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/dashboard/createagent}">Create Agent</a></li>
+            <li><a th:href="@{/dashboard/alluserslist}" class="active">All Users List</a></li>
+            <li><a th:href="@{/dashboard/bloodrequests}">Requests</a></li>
+            <li><a th:href="@{/dashboard/bloodstock}">Stock</a></li>
+            <li><a th:href="@{/dashboard/bloodreport}">Blood Report</a></li>
+            <li><a th:href="@{/dashboard/coinvalue}">Coin Value</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <h1>All Users</h1>
+        <h3 th:style="'color:green; text-align:center'" th:text="${operation}"></h3>
+        <div class="action-buttons">
+            <!-- Sorting and Filtering options -->
+            <form action="/dashboard/users" method="post">
+                <select name="sortOption">
+                    <option value="select" selected>Select Options</option>
+                    <option value="byname">Sort by Name</option>
+                    <option value="createdby">Sort CreatedBy</option>
+                    <option value="bybloodgroup">Sort by Blood Group</option>
+                </select>
+                <button type="submit">Sort</button>
+
+                <select id="filterOption" name="filterOption" onchange="handleFilterChange()">
+                    <option value="select" selected>Select Options</option>
+                    <option value="notLoggedIn">Not Logged In Users</option>
+                    <option value="byAgent">By Agent</option>
+                    <option value="byUsername">By Username</option>
+                    <option value="createdBetween">Created Between</option>
+                </select>
+                <input type="text" id="usernameInput" name="username" placeholder="Enter Username" style="display: none;">
+                <input type="date" id="startDate" name="startDate" placeholder="Start Date" style="display: none;">
+                <input type="date" id="endDate" name="endDate" placeholder="End Date" style="display: none;">
+                <button type="submit">Filter</button>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Creation Time</th>
+                <th>CreatedBy</th>
+                <th>DOB</th>
+                <th>Blood Group</th>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user, iterStat : ${allUsers}" th:class="${iterStat.index % 2 == 0} ? 'even' : 'odd'">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.createdOn}"></td>
+                <td th:text="${user.createdBy}"></td>
+                <td th:text="${user.dob}"></td>
+                <td th:text="${user.bloodGroup}"></td>
+                <td th:text="${user.role}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${#lists.isEmpty(allUsers)}">
+            <p>No users found</p>
+        </div>
+    </main>
+</div>
+
+<script th:inline="javascript">
+    function handleFilterChange() {
+        var selectedOption = document.getElementById("filterOption").value;
+        var usernameInput = document.getElementById("usernameInput");
+        var startDateInput = document.getElementById("startDate");
+        var endDateInput = document.getElementById("endDate");
+
+        if (selectedOption === "byUsername" || selectedOption === "byAgent") {
+            usernameInput.style.display = "inline-block";
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+        } else if (selectedOption === "createdBetween") {
+            startDateInput.style.display = "inline-block";
+            endDateInput.style.display = "inline-block";
+            usernameInput.style.display = "none";
+        } else {
+            startDateInput.style.display = "none";
+            endDateInput.style.display = "none";
+            usernameInput.style.display = "none";
+        }
+    }
+</script>
+
+<footer th:include="footer :: footer"></footer> <!-- Include footer fragment -->
+</body>
+</html>
