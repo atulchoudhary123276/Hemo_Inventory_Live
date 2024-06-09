@@ -29,6 +29,8 @@ public class UserRequestController {
     public String bloodRequest(@ModelAttribute UserRequestDto bloodRequestDTO,
                                Model model, HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
+        if (session==null)
+            return "redirect:/login";
         String userName = (String) session.getAttribute("userId");
         String bloodGroup = (String) session.getAttribute("bloodGroup");
         if (bloodRequestDTO.getType().equalsIgnoreCase("donar")) {
@@ -38,7 +40,7 @@ public class UserRequestController {
         try {
             String result = userRequestService.handleBloodRequirementRequest(bloodRequestDTO, userName);
             model.addAttribute("donateResult", result);
-            return "/enduser/user";
+            return "enduser/user";
         } catch (Exception e) {
 //            e.printStackTrace();
             model.addAttribute("formatError", e.getMessage());
