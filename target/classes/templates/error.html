@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Session Expired</title>
+    <link rel="stylesheet" type="text/css" href="/path/to/your/css/styles.css"/>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .error-message {
+            font-size: 20px;
+            color: red;
+        }
+        .back-to-login {
+            margin-top: 20px;
+        }
+        .back-to-login button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .back-to-login a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="error-message">
+        <h3>Session expired. Please log in again.</h3>
+    </div>
+    <div class="back-to-login">
+        <button><a th:href="@{/login}">Back to Login</a></button>
+    </div>
+</div>
+</body>
+</html>

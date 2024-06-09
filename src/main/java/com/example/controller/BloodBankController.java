@@ -151,6 +151,7 @@ public class BloodBankController {
     public String updatePassword(@ModelAttribute @Valid UserLoginDto userLoginDto,Model model,HttpSession session) {
         String status = loginService.updatePassword(userLoginDto);
         if (status == null) {
+            model.addAttribute("errorMsg", "You are not logged In");
             return "redirect:/login";
         } else if (status.equalsIgnoreCase("mismatch")) {
             model.addAttribute("error","Old Password did not Match ,please enter right password");

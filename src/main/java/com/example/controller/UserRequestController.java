@@ -20,7 +20,13 @@ public class UserRequestController {
     @Autowired
     UserRequestService userRequestService;
     @GetMapping(value = "/donorreceiverrequest")
-    public String userRequest() {
+    public String userRequest(HttpSession session,Model model) {
+        if (session==null) {
+            model.addAttribute("errorMsg", "You are not logged In");
+            return "redirect:/login";
+        }
+        model.addAttribute("coinValue", session.getAttribute("coinValue"));
+        model.addAttribute("name",session.getAttribute("name"));
         return "enduser/donorreceiverrequest";
     }
 
@@ -29,18 +35,28 @@ public class UserRequestController {
     public String bloodRequest(@ModelAttribute UserRequestDto bloodRequestDTO,
                                Model model, HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
-        if (session==null)
+        if (session==null) {
+            model.addAttribute("errorMsg", "You are not logged In");
             return "redirect:/login";
+        }
         String userName = (String) session.getAttribute("userId");
         String bloodGroup = (String) session.getAttribute("bloodGroup");
         if (bloodRequestDTO.getType().equalsIgnoreCase("donar")) {
             bloodRequestDTO.setBloodGroup(bloodGroup);
         }
-
         try {
             String result = userRequestService.handleBloodRequirementRequest(bloodRequestDTO, userName);
             model.addAttribute("donateResult", result);
-            return "enduser/user";
+            model.addAttribute("coinValue", session.getAttribute("coinValue"));
+            model.addAttribute("name",session.getAttribute("name"));
+            model.addAttribute("userId",userName);
+            model.addAttribute("dob",session.getAttribute("dob"));
+            model.addAttribute("createdBy",session.getAttribute("createdBy"));
+            model.addAttribute("createdOn",session.getAttribute("createdOn"));
+            model.addAttribute("bloodGroup",bloodGroup);
+//            return "enduser/user";
+            model.addAttribute("formatError", result);
+            return "enduser/donorreceiverrequest";
         } catch (Exception e) {
 //            e.printStackTrace();
             model.addAttribute("formatError", e.getMessage());

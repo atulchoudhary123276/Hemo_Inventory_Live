@@ -37,6 +37,7 @@ public class UtilityBloodController {
     public String getDashboard(HttpServletRequest request,Model model) {
         HttpSession session = request.getSession();
         if (session==null){
+            model.addAttribute("errorMsg", "You are not logged In");
             return "redirect:/login";
         }
         String role = (String) session.getAttribute("role");
@@ -133,16 +134,17 @@ public class UtilityBloodController {
     public String getBloodRequests(HttpServletRequest request, Model model, @RequestParam(name = "input", required = false) String input,
                                    @RequestParam(name = "status", required = false) String status
             , @RequestParam(name = "filterOption", required = false) String filterBy, @RequestParam(name = "startDate", required = false) String startDate, @RequestParam(name = "endDate", required = false) String endDate) throws ParseException {
-        String userName = (String) request.getSession().getAttribute("userId");
-        String role = (String) request.getSession().getAttribute("role");
-        Integer coinvalue = bloodReportService.getCoinvalue(userName);
-        model.addAttribute("coinValue",request.getSession().getAttribute("coinValue"));
-        model.addAttribute("name",request.getSession().getAttribute("name"));
-        request.getSession().setAttribute("coinValue",coinvalue);
-        if (userName == null || role == null) {
+        if (request.getSession()==null) {
             model.addAttribute("errorMsg", "You are not logged In");
             return "redirect:/login";
         }
+        String userName = (String) request.getSession().getAttribute("userId");
+        String role = (String) request.getSession().getAttribute("role");
+        Integer coinvalue = bloodReportService.getCoinvalue(userName);
+        request.getSession().setAttribute("coinValue",coinvalue);
+        model.addAttribute("coinValue",request.getSession().getAttribute("coinValue"));
+        model.addAttribute("name",request.getSession().getAttribute("name"));
+        model.addAttribute("userId",request.getSession().getAttribute("userId"));
         List<HashMap<String, Object>> bloodBankList = bloodRequestsService.getBloodBankList();
         if (role != null && role.equalsIgnoreCase("ADMIN")) {
             model.addAttribute("getBloodRequests", bloodRequestsService.filterBloodRequest(bloodBankList, filterBy, input, status, startDate, endDate));
@@ -196,6 +198,7 @@ public class UtilityBloodController {
     @GetMapping(value = "/bloodreport")
     public String getRequestReport(HttpSession session, Model model) {
         if (session == null) {
+            model.addAttribute("errorMsg", "You are not logged In");
             return "redirect:/login";
         }
         model.addAttribute("coinValue", session.getAttribute("coinValue"));

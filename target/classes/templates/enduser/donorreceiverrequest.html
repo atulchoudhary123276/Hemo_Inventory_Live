@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Donation Form</title>
+    <link th:href="@{/eustyle.css}" rel="stylesheet" type="text/css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,48 +57,162 @@
         input[type="submit"]:hover {
             background-color: #2980b9;
         }
+
         #bloodGroupContainer {
             display: none;
         }
 
+        header, footer {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .sidebar ul li a.active {
+            color: #3498db;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            margin: 0;
+            color: green;
+        }
+
+        .msg {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .msg {
+            margin: 0;
+            color: red;
+        }
+
+        .notification {
+            visibility: hidden;
+            min-width: 300px;
+            margin-left: -150px;
+            background-color: #f44336;
+            color: white;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            right: 0;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        .notification.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {right: -300px; opacity: 0;}
+            to {right: 0; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {right: 0; opacity: 1;}
+            to {right: -300px; opacity: 0;}
+        }
+
+        footer {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <h1 class="logo">Blood Bank</h1>
-        <p class="slogan">Saving Lives, One Donation at a Time</p>
-        <p th:text="${formatError}"></p>
-    </div>
-    <h2>Blood Donation Form</h2>
-    <form th:action="@{/submitBloodForm}" method="post">
-        <label for="type">Type:</label>
-        <select id="type" name="type" onchange="toggleBloodGroup()">
-            <option value="" disabled selected>Select Blood Group</option>
-            <option value="receiver">Receiver</option>
-            <option value="donar">Donor</option>
-        </select>
-        <!-- Container for blood group select -->
-        <div id="bloodGroupContainer">
-            <label for="bloodGroup">Blood Group:</label>
-            <select id="bloodGroup" name="bloodGroup">
-                <option value="" disabled selected>Select Blood Group</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-            </select>
+<header th:replace="header :: header"></header>
+<div class="main">
+    <aside class="sidebar">
+        <ul>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/donorreceiverrequest" class="active">Donate/Accept Blood Request</a></li>
+            <li><a href="/dashboard/bloodrequests">Request Status</a></li>
+        </ul>
+    </aside>
+    <div class="content">
+        <div class="header">
+            <p class="slogan">Saving Lives, One Donation at a Time</p>
         </div>
-        <label for="quantity">Quantity: in ml</label>
-        <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity in ml" required>
-        <input type="submit" value="Submit Request">
-    </form>
+        <h2>Blood Donation Form</h2>
+        <p class="msg" th:text="${formatError}" id="formatErrorMsg" style="display: none;"></p>
+        <form th:action="@{/submitBloodForm}" method="post">
+            <label for="type">Type:</label>
+            <select id="type" name="type" onchange="toggleBloodGroup()">
+                <option value="" disabled selected>Select Type</option>
+                <option value="receiver">Receiver</option>
+                <option value="donar">Donor</option>
+            </select>
+            <div id="bloodGroupContainer">
+                <label for="bloodGroup">Blood Group:</label>
+                <select id="bloodGroup" name="bloodGroup">
+                    <option value="" disabled selected>Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+            <label for="quantity">Quantity: in ml</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter Quantity in ml" required>
+            <input type="submit" value="Submit Request">
+        </form>
+    </div>
 </div>
+<footer th:replace="footer :: footer"></footer>
+
+<div id="notification" class="notification"></div>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -105,6 +220,18 @@
         var bloodGroupContainer = document.getElementById('bloodGroupContainer');
         var type = document.getElementById('type').value;
         bloodGroupContainer.style.display = (type === 'receiver') ? 'block' : 'none';
+    }
+
+    window.onload = function() {
+        var formatError = document.getElementById('formatErrorMsg').innerText;
+        if (formatError) {
+            var notification = document.getElementById('notification');
+            notification.textContent = formatError;
+            notification.classList.add('show');
+            setTimeout(function() {
+                notification.classList.remove('show');
+            }, 3000);
+        }
     }
     /*]]>*/
 </script>
