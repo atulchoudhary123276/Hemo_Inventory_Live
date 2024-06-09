@@ -5,6 +5,7 @@ import com.example.repository.DatabaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
@@ -32,4 +33,12 @@ public class AdminService {
             System.out.println("not empty");
         }
     }
+//    @PostConstruct
+//    public void unlockAdminLocked(){
+//        UserModel admin = databaseRepository.findByUserName("Admin");
+//        if (admin!=null){
+//            admin.setLocked(false);
+//            databaseRepository.save(admin);
+//        }
+//    }
 }
