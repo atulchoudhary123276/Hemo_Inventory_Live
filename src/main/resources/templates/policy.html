@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - HemoInventory.in</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+              margin: 0;
+              padding: 0;
+              font-family: 'Open Sans', sans-serif;
+              color: #fff;
+              position: relative;
+              min-height: 100vh;
+              display: flex;
+              flex-direction: column;
+          }
+
+          body::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: url('/bg.jpg') no-repeat center center fixed;
+              background-size: cover;
+              z-index: -1;
+              filter: brightness(.8); /* Darken the background for better text contrast */
+          }
+
+          header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 20px;
+              background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+              font-size: 24px;
+              position: relative;
+              z-index: 1;
+          }
+
+          .header-title {
+              font-size: 36px;
+              font-weight: bold;
+              color: #d4af7a; /* Text color */
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Text shadow for readability */
+          }
+
+          .header-buttons {
+              display: flex;
+              gap: 10px;
+          }
+
+          .header-buttons a {
+              text-decoration: none;
+              font-weight: bold;
+              color: #fff; /* Link color */
+          }
+
+          .header-buttons button {
+              padding: 10px 20px;
+              color: #fff;
+              background-color: #d4af7a; /* Button background color */
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+              transition: background-color 0.3s ease-in-out;
+          }
+
+          .header-buttons button:hover {
+              background-color: #975e2b; /* Darker background color on hover */
+          }
+
+          .header-buttons button a {
+              color: inherit; /* Inherit color from button */
+          }
+
+          .header-buttons button a:hover {
+              color: #fff;
+          }
+
+          footer {
+              background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+              padding: 20px;
+              text-align: center;
+              color: #d4af7a;
+              font-size: 14px;
+              position: relative;
+              z-index: 1;
+              margin-top: auto;
+          }
+
+          footer a {
+              color: #d4af7a;
+              text-decoration: none;
+              font-weight: bold;
+          }
+
+          footer a:hover {
+              text-decoration: underline;
+              color: #975e2b; /* Darker link color on hover */
+          }
+
+          @media (max-width: 768px) {
+              header {
+                  flex-direction: column;
+                  text-align: center;
+              }
+
+              .header-buttons {
+                  flex-direction: column;
+                  margin-top: 10px;
+              }
+          }
+
+          .container {
+              max-width: 800px;
+              margin: auto;
+              background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+              margin-top: 150px;
+              margin-bottom: 50px;
+          }
+
+          h1, h2 {
+              text-align: center;
+              margin-bottom: 20px;
+              color: #333;
+          }
+
+          p {
+              margin-bottom: 20px;
+              color: #333;
+              line-height: 1.6;
+          }
+
+          .back-to-home {
+              text-align: center;
+              margin-top: 20px;
+          }
+
+          .back-to-home a {
+              text-decoration: none;
+              font-weight: bold;
+              color: #4CAF50;
+          }
+
+          .back-to-home a:hover {
+              text-decoration: underline;
+          }
+    </style>
+</head>
+<body>
+<header>
+    <h1 class="header-title">Hemo Inventory</h1>
+    <div class="header-buttons">
+        <button> <a th:href="@{/}">Home</a></button>
+            <button><a th:href="@{/login}">Login</a></button>
+            <button><a th:href="@{/signup}">Sign Up</a></button>
+        </div>
+</header>
+
+<div class="container">
+    <h2>Privacy Policy</h2>
+    <p>This Privacy Policy outlines the types of personal information that is received and collected by HemoInventory.in and how it is used.</p>
+    <p><strong>1. Information Collection</strong></p>
+    <p>We collect information from you when you register on our site, place an order, subscribe to our newsletter, or fill out a form. The types of personal information collected may include your name, email address, phone number, and payment information.</p>
+    <p><strong>2. Information Use</strong></p>
+    <p>We use the information we collect from you to personalize your experience, improve our website, improve customer service, process transactions, and send periodic emails.</p>
+    <p><strong>3. Information Protection</strong></p>
+    <p>We implement a variety of security measures to maintain the safety of your personal information when you place an order or enter, submit, or access your personal information.</p>
+    <p><strong>4. Cookies</strong></p>
+    <p>We use cookies to enhance your experience, gather general visitor information, and track visits to our website.</p>
+    <p><strong>5. Information Disclosure</strong></p>
+    <p>We do not sell, trade, or otherwise transfer to outside parties your personally identifiable information. This does not include trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential.</p>
+    <p>If you have any questions or concerns regarding our Privacy Policy, please contact us using the form on our Contact Us page.</p>
+    <div class="back-to-home">
+        <span>
+            <a th:href="@{/}">Back to Home</a>
+        </span>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 HemoInventory.in. All Rights Reserved.</p>
+</footer>
+</body>
+</html>

@@ -172,5 +172,21 @@ public class BloodBankController {
         return "login";
     }
 
+    @GetMapping(value = "/contact")
+    public String contactus() {
+        return "contactus";
+    }
+
+    @GetMapping(value = "/privacy")
+    public String policyPage() {
+        return "policy";
+    }
+
+    @PostMapping(value = "/contactSubmit")
+    public String contactSubmit(Model model) {
+        model.addAttribute("msg","You query submit successfully");
+        return "contactus";
+    }
+
 
 }

@@ -4,35 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HemoInventory.in</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: url('https://e1.pxfuel.com/desktop-wallpaper/655/28/desktop-wallpaper-blood-donation-misc-hq-blood-donation-blood-bank.jpg') no-repeat center center fixed;
-            background-size: cover;
             font-family: 'Open Sans', sans-serif;
+            color: #fff;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            z-index: -1;
+            filter: brightness(1); /* Darken the background for better text contrast */
         }
 
         header {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+            font-size: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-title {
             font-size: 36px;
             font-weight: bold;
-            position: relative;
             color: #d4af7a; /* Text color */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Text shadow for readability */
         }
 
         .header-buttons {
-            position: absolute; /* Remove relative positioning */
-            top: 15px; /* Adjust top position for desired button placement */
-            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-buttons a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff; /* Link color */
         }
 
         .header-buttons button {
-            margin-left: 10px;
             padding: 10px 20px;
             color: #fff;
+            background-color: #d4af7a; /* Button background color */
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -44,25 +77,62 @@
             background-color: #975e2b; /* Darker background color on hover */
         }
 
-        a {
-            text-decoration: none;
-            font-weight: bold;
-            color: #d4af7a; /* Link color */
+        .header-buttons button a {
+            color: inherit; /* Inherit color from button */
         }
 
-        a:hover {
+        .header-buttons button a:hover {
+            color: #fff;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+            padding: 20px;
+            text-align: center;
+            color: #d4af7a;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #d4af7a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
             text-decoration: underline;
             color: #975e2b; /* Darker link color on hover */
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
 <body>
 <header>
-    HemoInventory.in
+    <div class="header-title">HemoInventory.in</div>
     <div class="header-buttons">
         <button><a th:href="@{/login}">Login</a></button>
         <button><a th:href="@{/signup}">Sign Up</a></button>
     </div>
 </header>
+
+<!-- Add main content here -->
+
+<footer>
+    &copy; 2024 HemoInventory.in. All rights reserved. | <a th:href="@{/privacy}">Privacy Policy</a> | <a th:href="@{/contact}">Contact Us</a>
+</footer>
 </body>
 </html>
