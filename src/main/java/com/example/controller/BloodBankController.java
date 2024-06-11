@@ -173,7 +173,7 @@ public class BloodBankController {
             model.addAttribute("userName",session.getAttribute("userId"));
             return "forgotPassword";
         }else if (status.equalsIgnoreCase("notfound")) {
-            model.addAttribute("error","user did not exist in this platform");
+            model.addAttribute("error","User not exist in this platform");
             model.addAttribute("userName",session.getAttribute("userId"));
             return "forgotPassword";
         }
