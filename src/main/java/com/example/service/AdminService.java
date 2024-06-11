@@ -2,6 +2,8 @@ package com.example.service;
 
 import com.example.model.UserModel;
 import com.example.repository.DatabaseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class AdminService {
+    private static final Logger log = LoggerFactory.getLogger(AdminService.class);
     @Autowired
     DatabaseRepository databaseRepository;
 
@@ -30,7 +33,7 @@ public class AdminService {
         if (!users.iterator().hasNext()) {
             databaseRepository.save(admin);
         } else {
-            System.out.println("not empty");
+            log.info("Admin already present");
         }
     }
 //    @PostConstruct

@@ -83,5 +83,22 @@ public class LoginService {
        return "mismatch";
 
     }
+    public String forgotPassword(UserLoginDto userLoginDto) {
+        if (userLoginDto.getUserName()==null || userLoginDto.getPassword()==null||userLoginDto.getDob()==null){
+            return null;
+        }
+        UserModel user = databaseRepository.findByUserName(userLoginDto.getUserName());
+        if (user==null){
+            return "notfound";
+        }
+        if (String.valueOf(user.getDob()).equals(userLoginDto.getDob())){
+            user.setPassword(userLoginDto.getPassword());
+            user.setFirstLogin(false);
+            databaseRepository.save(user);
+            return "ok";
+        }
+       return "mismatch";
+
+    }
 
 }

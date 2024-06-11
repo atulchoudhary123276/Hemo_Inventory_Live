@@ -8,6 +8,7 @@ public class UserLoginDto {
     @NotNull
     private String password;
     private String confirmPassword;
+    private String dob;
 
     public String getConfirmPassword() {
         return confirmPassword;
@@ -33,5 +34,11 @@ public class UserLoginDto {
         this.password = password;
     }
 
+    public String getDob() {
+        return dob;
+    }
 
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 }

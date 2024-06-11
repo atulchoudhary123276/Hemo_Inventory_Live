@@ -162,6 +162,25 @@ public class BloodBankController {
             return "passwordUpdateSuccess";
         }
     }
+    @PostMapping(value = "/processForgotPassword")
+    public String processForgotPassword(@ModelAttribute @Valid UserLoginDto userLoginDto,Model model,HttpSession session) {
+        String status = loginService.forgotPassword(userLoginDto);
+        if (status == null) {
+            model.addAttribute("errorMsg", "Please Input all fields");
+            return "redirect:/forgotPassword";
+        } else if (status.equalsIgnoreCase("mismatch")) {
+            model.addAttribute("error","please enter right Dob");
+            model.addAttribute("userName",session.getAttribute("userId"));
+            return "forgotPassword";
+        }else if (status.equalsIgnoreCase("notfound")) {
+            model.addAttribute("error","user in not exist");
+            model.addAttribute("userName",session.getAttribute("userId"));
+            return "forgotPassword";
+        }
+        else {
+            return "passwordUpdateSuccess";
+        }
+    }
 
     @GetMapping(value = "/logout")
     public String logout(HttpServletRequest request) {
@@ -180,6 +199,11 @@ public class BloodBankController {
     @GetMapping(value = "/privacy")
     public String policyPage() {
         return "policy";
+    }
+
+    @GetMapping(value = "/forgotPassword")
+    public String forgotPassword() {
+        return "forgotPassword";
     }
 
     @PostMapping(value = "/contactSubmit")
