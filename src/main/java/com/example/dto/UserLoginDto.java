@@ -41,4 +41,12 @@ public class UserLoginDto {
     public void setDob(String dob) {
         this.dob = dob;
     }
+
+    @Override
+    public String toString() {
+        return "UserLoginDto{" +
+                "userName='" + userName + '\'' +
+                ", dob='" + dob + '\'' +
+                '}';
+    }
 }

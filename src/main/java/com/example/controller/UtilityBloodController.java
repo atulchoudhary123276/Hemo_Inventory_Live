@@ -35,6 +35,7 @@ public class UtilityBloodController {
     //----- After redirecting to Dashboard -----
     @GetMapping
     public String getDashboard(HttpServletRequest request,Model model) {
+        System.out.println("in dashboard");
         HttpSession session = request.getSession();
         if (session==null){
             model.addAttribute("errorMsg", "You are not logged In");

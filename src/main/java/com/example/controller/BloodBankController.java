@@ -6,6 +6,12 @@ import com.example.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -16,8 +22,10 @@ import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +66,11 @@ public class BloodBankController {
         }
         return "login";
     }
+//    @PostMapping("/login")
+//    public void login1(@ModelAttribute @Valid UserLoginDto userLoginDto) {
+//        log.info("User login Dto "+userLoginDto);
+//
+//    }
 
     @PostMapping(value = "/register")
     public String register(@ModelAttribute @Valid UserRegisterDto userRegisterDto, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
@@ -86,13 +99,17 @@ public class BloodBankController {
         }
     }
 
-    @PostMapping(value = "/userLogin")
+    @PostMapping(value = "/login")
     public String userLogin(@ModelAttribute @Valid UserLoginDto userLoginDto, Model model, HttpServletRequest request) {
         UserRegisterDto returnDto = loginService.checkUser(userLoginDto);
         if (returnDto==null){
             model.addAttribute("username","notFound");
             return "loginError";
         }
+        GrantedAuthority authority=new SimpleGrantedAuthority("ROLE_"+returnDto.getRole());  //set the role for user
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(returnDto,null, Collections.singleton(authority));
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         if (returnDto.getLoginAttempts()==0) {
 //            sucessfully login
             HttpSession session = request.getSession();   //session object created
@@ -211,6 +228,15 @@ public class BloodBankController {
         model.addAttribute("msg","You query submit successfully");
         return "contactus";
     }
-
+    @RequestMapping(value = "/user")
+    @ResponseBody
+    public Principal user(Principal principal) {
+        System.out.println(principal.getName());
+        return principal;
+    }
+//    @GetMapping(value = "/userdb")
+//    public String userdb() {
+//        return "enduser/user";
+//    }
 
 }
