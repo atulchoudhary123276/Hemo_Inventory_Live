@@ -4,5 +4,5 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:11
 COPY --from=build /target/Atul_BloodBankProject-0.0.1-SNAPSHOT.jar hemoInventory.jar
-EXPOSE 8099
+EXPOSE 8088
 ENTRYPOINT ["java","-jar","hemoInventory.jar"]

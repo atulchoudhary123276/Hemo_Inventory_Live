@@ -28,7 +28,7 @@ public class SortingAndFilterService {
             }
             case "createdby":{
                 return allUsers.stream().sorted(
-                                Comparator.comparing(UserRegisterDto::getCreatedBy))
+                                Comparator.comparing(user->user.getCreatedBy().toLowerCase()))
                         .collect(Collectors.toList());
             }
             case "bybloodgroup":{
